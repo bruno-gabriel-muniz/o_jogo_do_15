@@ -45,6 +45,13 @@ def mostra_matriz():
         v3=i[2]
         v4=i[3]
         print("|%2i|%2i|%2i|%2i|"%(v1,v2,v3,v4))
+#função que mostra os movimentos disponivei para o jogador
+def movimentos():
+    #print das setas e as teclas para acionar o movimento
+    print('''       /ŵ\\
+ <--a       d-->
+       \s/''')
 #criando a função da jogada do usuário
 matriz_real=cria_matriz_4x4()
 mostra_matriz()
+movimentos()
