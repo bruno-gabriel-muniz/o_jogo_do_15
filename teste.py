@@ -103,7 +103,7 @@ Argumentos: nehum"""
             return False
     #verificar se foi para a direita
     elif jogada == "d":
-#verificar se o movimento é legal
+        #verificar se o movimento é legal
         if matriz_real[0][3]!= 0 != matriz_real[1][3] and matriz_real[2][3]!= 0 != matriz_real[3][3]:
             movimenta(1)
         #se não
@@ -169,19 +169,57 @@ def movimenta(l):
         #realizando a troca de valores
         matriz_real[x][y]=oi2
         matriz_real[x+1][y]=oi
-matriz_real=cria_matriz_4x4()
-posição_0=(0,0)
-cont=0
 def veri_v():
     """verifica se o usuário ganhou a partida."""
-    global cont
-    cont+=1
-    if cont>5:
-        return False
+    #conciderar as variaveis globais matriz
+    global matriz_real
+    #criar a variavel contadora para verificar se foi atingida a sequência de 15 números que determinam
+    #criar a variavel anterior como nulo para não dar erro quando for citada pela primeira vez 
+    cont_v=0
+    ant=0
+    #criar um for loop para percorrer todas as linhas
+    for i in matriz_real:
+        #criar um for loop para percorrer os valorese das linhas
+        for g in i:
+            #verificar se o valor atual é maior do que o anterior
+            if ant<g:
+                #adicionar a variavel contadora
+                cont_v+=1
+                ant=g
+            #se não verificar se a variavel contadora chegou em 15
+            elif cont_v == 15:
+                #mostrar a mensagem de vitória
+                print("parabéns você venceu o jogo.")
+                # se sim devolver verdadeiro
+                return False
+    #se não retornar falso
     return True
 def partida():
+    print('''                    Bem-vindo ao Jogo do 15!
+    Nele você terá que fazer o tabuleiro ficar dessa forma:
+    -------------
+    | 1| 2| 3| 4|
+    -------------
+    | 5| 6| 7| 8|
+    -------------
+    | 9|10|11|12|
+    -------------
+    |13|14|15| 0|
+    -------------.
+    Sendo que as peças vão começar organizadas de maneira aleatória e você só pode
+    mudar o zero de lugar com as peças que estão em cima, em baixo,
+    na esquerda ou na direita dele.
+    Boa sorte!!''')
     while veri_v():
+        v=0
         mostra_matriz()
         movimentos()
-        recebe_movimento()
+        while v ==0:
+            v=recebe_movimento()
+    else:
+        mostra_matriz()
+#definindo valores iniciais e cahamando a função partida(main)
+matriz_real=cria_matriz_4x4()
+#posição inicial do zero
+posição_0=(0,0)
 partida()
