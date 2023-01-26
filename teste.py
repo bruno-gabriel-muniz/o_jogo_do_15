@@ -1,7 +1,8 @@
 from random import choice as cho
 #criar a função matriz 4x4
 def cria_matriz_4x4():
-    ''' Está função cria uma matriz 4x4 e distribui aleatoriamente número de 0 a 15 nela'''
+    ''' Está função cria uma matriz 4x4 e distribui aleatoriamente número de 1 a 15 nela a não ser na priomeira casa onde fica o 0
+    Argumentos: nehum'''
     #criar variavel contadora para colocar os números nas linhas e colunas, assim, como a variável da linha e a matriz em si
     lista_disponiveis=list(range(1,16))
     linha=[]
@@ -34,6 +35,8 @@ def cria_matriz_4x4():
     return matriz
 #criando função que mostra a matriz
 def mostra_matriz():
+    """mostra o tabuleiro do jogo.
+    Argumentos: nehum"""
     global matriz_real
     #crindo ciclo for que vai passar por todos os elementos da matriz
     for i in matriz_real:
@@ -48,12 +51,17 @@ def mostra_matriz():
     print("-"*13)
 #função que mostra os movimentos disponivei para o jogador
 def movimentos():
+    """mostra o menu de movimentação enquanto ao 0
+    Argumentos: nehum"""
     #print das setas e as teclas para acionar o movimento
     print('''       /ŵ\\
  <--a       d-->
        \s/''')
 #criando a função que recebe e verifica se o movimento é legal
 def recebe_movimento():
+    """recebe e verifica se o movimento do usuário é válido, após isso executa a função movimentação 
+com o valor do respectivo movimento caso ele seja válido
+Argumentos: nehum"""
     global matriz_real
     #pedir a escolha do usuário
     jogada=input("escolha a sua jogada: ")
@@ -62,41 +70,118 @@ def recebe_movimento():
         #verificar se o movimento é legal
         if matriz_real[0][0]!= 0 != matriz_real[0][1] and matriz_real[0][2]!= 0 != matriz_real[0][3]:
             #se sim realizar o movimento
-            print("realizar o movimento")
+            movimenta(2)
         #se não
         else:
+            #mostrar explicação
+            print("jogada invalida. ")
             #devolver erro
-            print("não realizar o movimento")
+            return False
     #verificar se foi para baixo
     elif jogada == "s":
         #verificar se o movimento é legal
         if matriz_real[3][0]!= 0 != matriz_real[3][1] and matriz_real[3][2]!= 0 != matriz_real[3][3]:
             #se sim realizar o movimento
-            print("realizar o movimento")
+            movimenta(3)
         #se não
         else:
+            #mostrar explicação
+            print("jogada invalida. ")
             #devolver erro
-            print("não realizar o movimento")
+            return False
     #verificar se foi para a esquerda
     elif jogada == "a": 
         #verificar se o movimento é legal
         if matriz_real[0][0]!= 0 != matriz_real[1][0] and matriz_real[2][0]!= 0 != matriz_real[3][0]:
             #se sim realizar o movimento
-            "realizar o movimento"
+            movimenta(0)
         #se não
         else:
+            #mostrar explicação
+            print("jogada invalida. ")
             #devolver erro
-            print("não realizar o movimento")
+            return False
     #verificar se foi para a direita
     elif jogada == "d":
 #verificar se o movimento é legal
         if matriz_real[0][3]!= 0 != matriz_real[1][3] and matriz_real[2][3]!= 0 != matriz_real[3][3]:
-            print("realizar o movimento")
+            movimenta(1)
         #se não
         else:
             #devolver erro
-            print("não realizar o movimento")
+            return False
+    else:
+        print("entrada não reconhecida tente novamente.")
+        return False
+#criar a função de movimentação pedindo a direção do movimento
+def movimenta(l):
+    """esta função realiza a movimentação das pessa do tabuleiro precisa de argumento, porém são dados automaticamente pela função que recebe os movimento, sendo eles:
+    esquerda[0];
+    direita[1];
+    por cima[2]; ou
+    por baixo[3]. """
+    #receber a matriz e o valor so zero como globais
+    global posição_0, matriz_real
+    #mapeando os índices do 0: x e y
+    x,y=posição_0
+    #caso seja pela esquerda[0]
+    if l == 0:
+        #trocar com um elemento na mesma linha com o índice uma unidade menor
+        #indo até o 0 atribuindo o oi a ele
+        oi=matriz_real[x][y]
+        #indo no índice do número da troca e atribuindo  oi2 a ele 
+        oi2=matriz_real[x][y-1]
+        #atualizando a posição do 0
+        posição_0=(x,y-1)
+        #realizando a troca de valores
+        matriz_real[x][y]=oi2
+        matriz_real[x][y-1]=oi
+    elif l == 1:
+        #trocar com um elemento na mesma linha com o índice uma unidade menor
+        #indo até o 0 atribuindo o oi a ele
+        oi=matriz_real[x][y]
+        #indo no índice do número da troca e atribuindo  oi2 a ele 
+        oi2=matriz_real[x][y+1]
+        #atualizando a posição do 0
+        posição_0=(x,y+1)
+        #realizando a troca de valores
+        matriz_real[x][y]=oi2
+        matriz_real[x][y+1]=oi
+    elif l == 2:
+        #trocar com um elemento na mesma linha com o índice uma unidade menor
+        #indo até o 0 atribuindo o oi a ele
+        oi=matriz_real[x][y]
+        #indo no índice do número da troca e atribuindo  oi2 a ele 
+        oi2=matriz_real[x-1][y]
+        #atualizando a posição do 0
+        posição_0=(x-1,y)
+        #realizando a troca de valores
+        matriz_real[x][y]=oi2
+        matriz_real[x-1][y]=oi
+    elif l == 3:
+        #trocar com um elemento na mesma linha com o índice uma unidade menor
+        #indo até o 0 atribuindo o oi a ele
+        oi=matriz_real[x][y]
+        #indo no índice do número da troca e atribuindo  oi2 a ele 
+        oi2=matriz_real[x+1][y]
+        #atualizando a posição do 0
+        posição_0=(x+1,y)
+        #realizando a troca de valores
+        matriz_real[x][y]=oi2
+        matriz_real[x+1][y]=oi
 matriz_real=cria_matriz_4x4()
-mostra_matriz()
-movimentos()
-recebe_movimento()
+posição_0=(0,0)
+cont=0
+def veri_v():
+    """verifica se o usuário ganhou a partida."""
+    global cont
+    cont+=1
+    if cont>5:
+        return False
+    return True
+def partida():
+    while veri_v():
+        mostra_matriz()
+        movimentos()
+        recebe_movimento()
+partida()
