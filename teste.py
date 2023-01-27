@@ -56,7 +56,8 @@ def movimentos():
     #print das setas e as teclas para acionar o movimento
     print('''       /ŵ\\
  <--a       d-->
-       \s/''')
+       \s/
+menu=m''')
 #criando a função que recebe e verifica se o movimento é legal
 def recebe_movimento():
     """recebe e verifica se o movimento do usuário é válido, após isso executa a função movimentação 
@@ -108,8 +109,12 @@ Argumentos: nehum"""
             movimenta(1)
         #se não
         else:
+            #mostrar explicação
+            print("jogada invalida. ")
             #devolver erro
             return False
+    elif jogada=="m":
+        menu()
     else:
         print("entrada não reconhecida tente novamente.")
         return False
@@ -194,7 +199,44 @@ def veri_v():
                 return False
     #se não retornar falso
     return True
+#criando a opção menu
+def menu():
+    #fazer a matriz real ser reconhecida como global, por que ela é o tabuleiro e caso o usuário queira reiniciar ele e a posição do zero será necessário
+    #, assim como a variavél desistir caso o usuário deseje parar de jogar.
+    global matriz_real, desistir, posição_0
+    #criar um while loop para pegar a entrada do uusuário caso ele digite errado e criar uma variavel que verifica que a entrada foi aceita
+    verifica=0
+    while verifica==0:
+        #mostrando as duas opções continuar ou desistir
+        escolha=int(input('''
+continuar=1
+desistir=0
+reiniciar=9
+sua escolha: '''))
+        #verificar se a escolha foi continuar
+        if escolha == 1:
+            #verificar que a entrada foi reconhecida 
+            verifica=1
+            #e fazer nada, pois ao acabar de percorre a função o jogo volta ao taboleiro sozinho
+        #verificar se a escolha foi desistir
+        elif escolha ==0:
+            #verificar que a entrada foi reconhecida 
+            verifica=1
+            #mudar a variavel desistir para o jogo acabar
+            desistir=1
+        #verificar se a escolha foi reiniciar
+        elif escolha==9:
+            #verificar que a entrada foi reconhecida 
+            verifica=1
+            #reiniciando o tabuleiro
+            matriz_real=cria_matriz_4x4()
+            #reiniciando a posição do zero
+            posição_0=(0,0)
+        #caso não seja reconhecida perguntra de novo e mostrar a esplicação
+        else:
+            print("entrada não reconhecida tente novamente.")
 def partida():
+    #itodruzindo o jogo para o usuário
     print('''                    Bem-vindo ao Jogo do 15!
     Nele você terá que fazer o tabuleiro ficar dessa forma:
     -------------
@@ -210,16 +252,28 @@ def partida():
     mudar o zero de lugar com as peças que estão em cima, em baixo,
     na esquerda ou na direita dele.
     Boa sorte!!''')
-    while veri_v():
+    #entrado no ciclo que ira o correr até o usuário vencer ou desistir
+    while veri_v() and not desistir:
+        #dizendo que o movimento não foi recebido
         v=0
+        #mostrando o tabuleiro para o jogador
         mostra_matriz()
+        #mostrando as opções de movimento para o jogador
         movimentos()
+        #verificando se o movimento foi recebido ou é valido
         while v ==0:
+            #pedindo o movimento para o usuário
+            #Ps.: Quando essa função percebe que o movimento é valido ela realiza o movimento
             v=recebe_movimento()
-    else:
+    #verificando se o usuário ganhou para mostrar o tabuleiro caso ele tenha ganhado
+    if not desistir:
         mostra_matriz()
+    #exibindo uma mensagem que anime o usuário apesar da desistencia
+    else:
+        print("Pensando em uma mensagem adequada.")
 #definindo valores iniciais e cahamando a função partida(main)
 matriz_real=cria_matriz_4x4()
 #posição inicial do zero
 posição_0=(0,0)
+desistir=False
 partida()
