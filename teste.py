@@ -1,13 +1,17 @@
+#importando do modulo random a função choice como cho para poder criar a matriz com os números distribuidos aleatoriamente nas casas
+#da matriz sem nenhuma repetição 
 from random import choice as cho
 #criar a função matriz 4x4
 def cria_matriz_4x4():
     ''' Está função cria uma matriz 4x4 e distribui aleatoriamente número de 1 a 15 nela a não ser na priomeira casa onde fica o 0
     Argumentos: nehum'''
-    #criar variavel contadora para colocar os números nas linhas e colunas, assim, como a variável da linha e a matriz em si
+    #criar a listas com as possibilidades dos números disponiveis para a matriz
     lista_disponiveis=list(range(1,16))
+    #criando a variavel linha para receber os valores de cada linha e ser copiada para a matriz assim cada linha vai ser uma sublista da matriz 
     linha=[]
+    #criando a variavel da matriz em si
     matriz=[]
-    #criando a verificação para adcionar a cas vazia na primeira linha
+    #criando a verificação para adcionar a casa vazia na primeira linha e na prinmeira linha
     primeira=1
     #criador de linhas
     for t in range(4):
@@ -47,11 +51,13 @@ def mostra_matriz():
         v2=i[1]
         v3=i[2]
         v4=i[3]
+        #colocando divisorias entre os número de cada linha para facilitar a indentificação de cada coluna
         print("|%2i|%2i|%2i|%2i|"%(v1,v2,v3,v4))
+    #imprimindo a ultima divisoria da matriz    
     print("-"*13)
 #função que mostra os movimentos disponivei para o jogador
 def movimentos():
-    """mostra o menu de movimentação enquanto ao 0
+    """mostra o menu de movimentação enquanto ao 0 e a possibilidade de entrar no menu da partida
     Argumentos: nehum"""
     #print das setas e as teclas para acionar o movimento
     print('''       /ŵ\\
@@ -68,19 +74,19 @@ Argumentos: nehum"""
     jogada=input("escolha a sua jogada: ")
     #verificar se foi para cima
     if jogada == "w":
-        #verificar se o movimento é legal
+        #verificar se o movimento é legal ele: só será se não estiver na primeira linha da matriz
         if matriz_real[0][0]!= 0 != matriz_real[0][1] and matriz_real[0][2]!= 0 != matriz_real[0][3]:
             #se sim realizar o movimento
             movimenta(2)
         #se não
         else:
-            #mostrar explicação
+            #mostrar explicação 
             print("jogada invalida. ")
             #devolver erro
             return False
     #verificar se foi para baixo
     elif jogada == "s":
-        #verificar se o movimento é legal
+        #verificar se o movimento é legal: ele só será se não estiver na ultima linha da matriz
         if matriz_real[3][0]!= 0 != matriz_real[3][1] and matriz_real[3][2]!= 0 != matriz_real[3][3]:
             #se sim realizar o movimento
             movimenta(3)
@@ -92,7 +98,7 @@ Argumentos: nehum"""
             return False
     #verificar se foi para a esquerda
     elif jogada == "a": 
-        #verificar se o movimento é legal
+        #verificar se o movimento é legal: ele só será se não estiver na primeira coluna da matriz
         if matriz_real[0][0]!= 0 != matriz_real[1][0] and matriz_real[2][0]!= 0 != matriz_real[3][0]:
             #se sim realizar o movimento
             movimenta(0)
@@ -104,8 +110,9 @@ Argumentos: nehum"""
             return False
     #verificar se foi para a direita
     elif jogada == "d":
-        #verificar se o movimento é legal
+        #verificar se o movimento é legal: ele só será se não estiver na ultima coluna matriz
         if matriz_real[0][3]!= 0 != matriz_real[1][3] and matriz_real[2][3]!= 0 != matriz_real[3][3]:
+            #se sim realizar o movimento
             movimenta(1)
         #se não
         else:
@@ -113,11 +120,14 @@ Argumentos: nehum"""
             print("jogada invalida. ")
             #devolver erro
             return False
+    #verificando se o usuário quer entrar no menu
     elif jogada=="m":
+        #se sim entrando no menu
         menu()
+    #retornado falso já que a entrada não foi reconhecida e rexecutando a função para pedir novamente a entrada do usuário
     else:
         print("entrada não reconhecida tente novamente.")
-        return False
+        return  recebe_movimento()
 #criar a função de movimentação pedindo a direção do movimento
 def movimenta(l):
     """esta função realiza a movimentação das pessa do tabuleiro precisa de argumento, porém são dados automaticamente pela função que recebe os movimento, sendo eles:
@@ -125,9 +135,9 @@ def movimenta(l):
     direita[1];
     por cima[2]; ou
     por baixo[3]. """
-    #receber a matriz e o valor so zero como globais
+    #receber a matriz e o valor so zero como globais para fazer as alterações nescessárias nestas variaveis
     global posição_0, matriz_real
-    #mapeando os índices do 0: x e y
+    #mapeando os índices do 0: x e y para a realização da troca
     x,y=posição_0
     #caso seja pela esquerda[0]
     if l == 0:
@@ -175,7 +185,10 @@ def movimenta(l):
         matriz_real[x][y]=oi2
         matriz_real[x+1][y]=oi
 def veri_v():
-    """verifica se o usuário ganhou a partida."""
+    """     verifica se o usuário ganhou a partida. Através da verificação de quanto índices eram maiores do que o anterior, 
+pois a unica forma desse valor atingir 15 é quando o usuário ganha o jogo. Que é quando a função imprime parabés pela vitória
+e devolve o valor falso que é critério de parada da função partida.
+Argumentos: nenhum"""
     #conciderar as variaveis globais matriz
     global matriz_real
     #criar a variavel contadora para verificar se foi atingida a sequência de 15 números que determinam
@@ -190,6 +203,7 @@ def veri_v():
             if ant<g:
                 #adicionar a variavel contadora
                 cont_v+=1
+                #redefinindo a variavel anntiga pela atual, que será a antiga da próxima
                 ant=g
             #se não verificar se a variavel contadora chegou em 15
             elif cont_v == 15:
@@ -235,6 +249,7 @@ sua escolha: '''))
         #caso não seja reconhecida perguntra de novo e mostrar a esplicação
         else:
             print("entrada não reconhecida tente novamente.")
+#criando a função que entra na partida
 def partida():
     #itodruzindo o jogo para o usuário
     print('''                    Bem-vindo ao Jogo do 15!
@@ -261,19 +276,19 @@ def partida():
         #mostrando as opções de movimento para o jogador
         movimentos()
         #verificando se o movimento foi recebido ou é valido
-        while v ==0:
-            #pedindo o movimento para o usuário
-            #Ps.: Quando essa função percebe que o movimento é valido ela realiza o movimento
-            v=recebe_movimento()
+        #pedindo o movimento para o usuário
+        #Ps.: Quando essa função percebe que o movimento é valido ela realiza o movimento
+        recebe_movimento()
     #verificando se o usuário ganhou para mostrar o tabuleiro caso ele tenha ganhado
     if not desistir:
         mostra_matriz()
     #exibindo uma mensagem que anime o usuário apesar da desistencia
     else:
-        print("Pensando em uma mensagem adequada.")
+        print("Fim do jogo.")
 #definindo valores iniciais e cahamando a função partida(main)
 matriz_real=cria_matriz_4x4()
 #posição inicial do zero
 posição_0=(0,0)
+#definindo desistir como falso 
 desistir=False
 partida()
