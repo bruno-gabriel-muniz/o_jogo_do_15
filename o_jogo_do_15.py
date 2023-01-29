@@ -4,7 +4,7 @@ from random import choice as cho
 #criar a função matriz 4x4
 def cria_matriz_4x4():
     ''' Está função cria uma matriz 4x4 e distribui aleatoriamente número de 1 a 15 nela a não ser na priomeira casa onde fica o 0
-    Argumentos: nehum'''
+'''
     #criar a listas com as possibilidades dos números disponiveis para a matriz
     lista_disponiveis=list(range(1,16))
     #criando a variavel linha para receber os valores de cada linha e ser copiada para a matriz assim cada linha vai ser uma sublista da matriz 
@@ -31,7 +31,7 @@ def cria_matriz_4x4():
                 cont=cho(lista_disponiveis)
                 #adicionador do cont na coluna
                 linha.append(cont)
-                #removaendo o número para ele não ser repetido
+                #removendo o número para ele não ser repetido
                 lista_disponiveis.remove(cont)
         #adicionando a linha na matriz
         matriz.append(linha.copy())
@@ -42,11 +42,11 @@ def mostra_matriz():
     """mostra o tabuleiro do jogo.
     Argumentos: nehum"""
     global matriz_real
-    #crindo ciclo for que vai passar por todos os elementos da matriz
+    #crindo ciclo for que vai passar por todas as linhas da matriz
     for i in matriz_real:
         #imprimindo a divisoria das linhas
         print("-"*13)
-        #imprimindo cada linha da matriz separadamente
+        #imprimindo cada valor da linha da matriz separadamente
         v1=i[0]
         v2=i[1]
         v3=i[2]
@@ -215,6 +215,7 @@ Argumentos: nenhum"""
     return True
 #criando a opção menu
 def menu():
+    '''Esta função exibi o menu que da opção de reiniciar o tabuleiro ou desistir do jogo'''
     #fazer a matriz real ser reconhecida como global, por que ela é o tabuleiro e caso o usuário queira reiniciar ele e a posição do zero será necessário
     #, assim como a variavél desistir caso o usuário deseje parar de jogar.
     global matriz_real, desistir, posição_0
